@@ -13,7 +13,7 @@ import {
 
 import InfoTile from "../components/InfoTile";
 import colors from "../config/colors";
-import { callData } from "../data/PLSdata.js";
+import { fetchXMLData } from "../data/PLSdata.js";
 
 function InfoList(props) {
   return (
@@ -30,7 +30,13 @@ function InfoList(props) {
         <View style={{ backgroundColor: "red", flex: 1 }}></View>
       </View>
       <ScrollView>
-        <TouchableHighlight onPress={() => callData()}>
+        <TouchableHighlight
+          onPress={() =>
+            fetchXMLData(
+              "http://parken.amberg.de/wp-content/uploads/pls/pls.xml"
+            )
+          }
+        >
           <InfoTile />
         </TouchableHighlight>
         <InfoTile />
