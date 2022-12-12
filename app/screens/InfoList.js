@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   SafeAreaView,
   StyleSheet,
@@ -16,6 +17,20 @@ import colors from "../config/colors";
 import { fetchXMLData } from "../data/PLSdata.js";
 
 function InfoList(props) {
+  const [data, setData] = useState({});
+
+  //useEffect(async () => {}, []);
+
+  const getPLSData = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem("@PLSData");
+      setData(jsonValue != null ? JSON.parse(jsonValue) : null);
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <SafeAreaView>
@@ -37,6 +52,12 @@ function InfoList(props) {
             )
           }
         >
+          <InfoTile />
+        </TouchableHighlight>
+        <TouchableHighlight onPress={() => getPLSData()}>
+          <InfoTile />
+        </TouchableHighlight>
+        <TouchableHighlight onPress={() => console.log(data)}>
           <InfoTile />
         </TouchableHighlight>
         <InfoTile />
