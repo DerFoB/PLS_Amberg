@@ -14,22 +14,27 @@ import {
 
 import InfoTile from "../components/InfoTile";
 import colors from "../config/colors";
-import { fetchXMLData } from "../data/PLSdata.js";
+import { fetchXMLData, getData } from "../data/DataFetchAndStorage.js";
 
 function InfoList(props) {
   const [data, setData] = useState({});
 
-  //useEffect(async () => {}, []);
+  useEffect(() => {
+    //fetch the Data from the website
+    fetchXMLData("http://parken.amberg.de/wp-content/uploads/pls/pls.xml");
+    //get the Data from the storage
+    getData().then((response) => setData(response));
+    console.log("only once");
 
-  const getPLSData = async () => {
-    try {
-      const jsonValue = await AsyncStorage.getItem("@PLSData");
-      setData(jsonValue != null ? JSON.parse(jsonValue) : null);
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    //fires every Minute
+    const interval = setInterval(() => {
+      //fetch the Data from the website
+      fetchXMLData("http://parken.amberg.de/wp-content/uploads/pls/pls.xml");
+      //get the Data from the storage
+      getData().then((response) => setData(response));
+      console.log("still working");
+    }, 60000);
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -37,39 +42,10 @@ function InfoList(props) {
         <Text style={styles.title}>PLS Amberg</Text>
       </SafeAreaView>
       <Text>aktualisiert am: </Text>
-      <View style={{ height: 20, width: "100%", flexDirection: "row" }}>
-        <View style={{ backgroundColor: "red", flex: 1 }}></View>
-        <View style={{ backgroundColor: "blue", flex: 1 }}></View>
-        <View style={{ backgroundColor: "red", flex: 1 }}></View>
-        <View style={{ backgroundColor: "blue", flex: 1 }}></View>
-        <View style={{ backgroundColor: "red", flex: 1 }}></View>
-      </View>
       <ScrollView>
-        <TouchableHighlight
-          onPress={() =>
-            fetchXMLData(
-              "http://parken.amberg.de/wp-content/uploads/pls/pls.xml"
-            )
-          }
-        >
-          <InfoTile />
-        </TouchableHighlight>
-        <TouchableHighlight onPress={() => getPLSData()}>
-          <InfoTile />
-        </TouchableHighlight>
         <TouchableHighlight onPress={() => console.log(data)}>
           <InfoTile />
         </TouchableHighlight>
-        <InfoTile />
-        <InfoTile />
-        <InfoTile />
-        <InfoTile />
-        <InfoTile />
-        <InfoTile />
-        <InfoTile />
-        <InfoTile />
-        <InfoTile />
-        <InfoTile />
       </ScrollView>
     </View>
   );
