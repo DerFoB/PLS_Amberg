@@ -10,7 +10,6 @@ function fetchXMLData(path) {
     .then(
       (result) => {
         let parsedObject = parser.parse(result);
-        //console.log("parsedObject", parsedObject);
         storeData(parsedObject);
       },
       (error) => {
@@ -23,19 +22,15 @@ function fetchXMLData(path) {
 const storeData = async (data) => {
   try {
     jsonObject = JSON.stringify(data);
-    //console.log("jsonObject", jsonObject);
     await AsyncStorage.setItem("@Data", jsonObject);
   } catch (error) {
     console.log(error);
   }
-  console.log("Done.");
 };
 
 async function getData() {
   try {
     const jsonValue = await AsyncStorage.getItem("@Data");
-    console.log("jsonValue", jsonValue);
-    console.log("parse", JSON.parse(jsonValue));
     return jsonValue != null ? JSON.parse(jsonValue) : null;
   } catch (error) {
     console.log(error);

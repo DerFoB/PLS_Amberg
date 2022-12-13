@@ -1,5 +1,6 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
+import { TouchableHighlight } from "react-native-web";
 
 import colors from "../config/colors";
 
