@@ -22,6 +22,7 @@ function fetchXMLData(path) {
 const storeData = async (data) => {
   try {
     jsonObject = JSON.stringify(data);
+    console.log(jsonObject);
     await AsyncStorage.setItem("@Data", jsonObject);
   } catch (error) {
     console.log(error);
