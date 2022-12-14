@@ -56,7 +56,7 @@ function InfoList(props) {
   if (hasLoaded) {
     {
       var carpark = data.Daten.Parkhaus.map((carpark) => (
-        <Text key={carpark.ID}>{carpark.Name}</Text>
+        <InfoTile key={carpark.ID} carpark={carpark} />
       ));
     }
   }
@@ -68,7 +68,6 @@ function InfoList(props) {
           <Text style={styles.title}>PLS Amberg</Text>
         </SafeAreaView>
         <Text>aktualisiert am: {data.Daten.Zeitstempel}</Text>
-        <View>{carpark}</View>
         <ScrollView>
           <TouchableHighlight
             onPress={() => console.log(data.Daten.Parkhaus[1].ID)}
@@ -82,6 +81,7 @@ function InfoList(props) {
               }}
             ></View>
           </TouchableHighlight>
+          <View>{carpark}</View>
           <InfoTile />
         </ScrollView>
       </View>

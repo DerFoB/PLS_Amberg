@@ -29,6 +29,7 @@ const storeData = async (data) => {
   }
 };
 
+//getting the Data from the storage of AsynchStorage
 async function getData() {
   try {
     const jsonValue = await AsyncStorage.getItem("@Data");

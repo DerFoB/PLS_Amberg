@@ -1,11 +1,15 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 import { TouchableHighlight } from "react-native-web";
 
 import colors from "../config/colors";
 
 function InfoTile(props) {
-  return <View style={styles.container}></View>;
+  return (
+    <View style={styles.container}>
+      <Text>Test</Text>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
