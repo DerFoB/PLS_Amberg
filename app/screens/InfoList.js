@@ -53,10 +53,21 @@ function InfoList(props) {
     }
   }, [data]);*/
 
+  //map every carpark to an Infotile
   if (hasLoaded) {
     {
-      var carpark = data.Daten.Parkhaus.map((carpark) => (
-        <InfoTile key={carpark.ID} carpark={carpark} />
+      var carparks = data.Daten.Parkhaus.map((carpark) => (
+        <InfoTile
+          key={carpark.ID}
+          ID={carpark.ID}
+          Name={carpark.Name}
+          Total={carpark.Gesamt}
+          Current={carpark.Aktuell}
+          Available={carpark.Frei}
+          Trend={carpark.Trend}
+          Status={carpark.Status}
+          Closed={carpark.Geschlossen}
+        ></InfoTile>
       ));
     }
   }
@@ -69,19 +80,7 @@ function InfoList(props) {
         </SafeAreaView>
         <Text>aktualisiert am: {data.Daten.Zeitstempel}</Text>
         <ScrollView>
-          <TouchableHighlight
-            onPress={() => console.log(data.Daten.Parkhaus[1].ID)}
-          >
-            <View
-              style={{
-                height: 100,
-                backgroundColor: colors.secondary,
-                marginVertical: 5,
-                borderRadius: 10,
-              }}
-            ></View>
-          </TouchableHighlight>
-          <View>{carpark}</View>
+          <View>{carparks}</View>
           <InfoTile />
         </ScrollView>
       </View>
@@ -92,7 +91,7 @@ function InfoList(props) {
         <SafeAreaView>
           <Text style={styles.title}>PLS Amberg</Text>
         </SafeAreaView>
-        <Text>keine Internetverbindung</Text>
+        <Text>Ein unerwarteter Fehler ist aufgetreten.</Text>
       </View>
     );
   }
