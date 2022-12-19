@@ -5,7 +5,8 @@ import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import colors from "../config/colors";
 
 function InfoTile(props) {
-  if (props.ID != null) {
+  if (props.Closed == 0) {
+    //Only shows tile if carpark isnt closed
     return (
       <TouchableOpacity onPress={() => console.log(props.ID)}>
         <View style={styles.container}>

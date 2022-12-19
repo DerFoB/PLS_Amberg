@@ -5,7 +5,7 @@ import { XMLParser } from "fast-xml-parser";
 function fetchXMLData(path) {
   var parser = new XMLParser();
 
-  fetch(path) //hier: "http://parken.amberg.de/wp-content/uploads/pls/pls.xml"
+  fetch(path)
     .then((result) => result.text())
     .then(
       (result) => {
@@ -22,7 +22,6 @@ function fetchXMLData(path) {
 const storeData = async (data) => {
   try {
     jsonObject = JSON.stringify(data);
-    //console.log(jsonObject);
     await AsyncStorage.setItem("@Data", jsonObject);
   } catch (error) {
     console.log(error);

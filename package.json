@@ -16,9 +16,12 @@
     "expo-status-bar": "~1.4.2",
     "fast-xml-parser": "^4.0.12",
     "html-entities": "^2.3.3",
+    "prop-types": "^15.8.1",
     "react": "18.1.0",
     "react-dom": "18.1.0",
     "react-native": "0.70.5",
+    "react-native-svg": "^13.4.0",
+    "react-native-svg-icon": "^0.10.0",
     "react-native-web": "~0.18.9",
     "react-native-xml2js": "^1.0.3"
   },
