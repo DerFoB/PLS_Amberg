@@ -20,6 +20,7 @@ function InfoList(props) {
   const [data, setData] = useState({}); //PLS data
   const [hasLoaded, setHasLoaded] = useState(false); //if data is loaded or not
   const [showMap, setShowMap] = useState(false); //shows Map or Overview
+  const [intervalRunning, setIntervalRunning] = useState(false); //so the data fetch Interval only gets triggered once
 
   //fetch and get the data
   useEffect(() => {
@@ -37,14 +38,17 @@ function InfoList(props) {
 
     callApi();
 
-    //fires every Minute
-    const interval = setInterval(() => {
-      //fetch the Data from the website
-      fetchXMLData(configData.path);
-      //get the Data from the storage
-      getData().then((response) => setData(response));
-      console.log("still working");
-    }, 60000);
+    if (!intervalRunning) {
+      //fires every Minute
+      const interval = setInterval(() => {
+        //fetch the Data from the website
+        fetchXMLData(configData.path);
+        //get the Data from the storage
+        getData().then((response) => setData(response));
+        console.log("still working");
+      }, 60000);
+      setIntervalRunning(true);
+    }
   }, []);
 
   /*useEffect(() => {
@@ -58,9 +62,10 @@ function InfoList(props) {
     //Map of Amberg
     if (showMap) {
       {
+        var carparkInformations = <Text>geht</Text>;
       }
     }
-    //Overview over carparks
+    //List Overview over carparks
     else {
       {
         //map every carpark to an Infotile
@@ -77,6 +82,8 @@ function InfoList(props) {
             Closed={carpark.Geschlossen}
           ></InfoTile>
         ));
+
+        var carparkInformations = <ScrollView>{carparks}</ScrollView>;
       }
     }
   }
@@ -84,18 +91,24 @@ function InfoList(props) {
   if (hasLoaded) {
     return (
       <View style={styles.container}>
+        {/*Header */}
         <SafeAreaView style={styles.header}>
           <View>
             <Text style={styles.title}>PLS Amberg</Text>
             <Text>aktualisiert am: {data.Daten.Zeitstempel}</Text>
           </View>
-          <TouchableOpacity style={styles.button}>
-            <Icon name="mapIcon" height="90%" width="90%" />
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => {
+              setShowMap(!showMap);
+            }}
+          >
+            <Icon name={showMap ? "listIcon" : "mapIcon"} />
           </TouchableOpacity>
         </SafeAreaView>
-        <ScrollView>
-          <View>{carparks}</View>
-        </ScrollView>
+
+        {/*Information Display */}
+        <View style={styles.informationDisplay}>{carparkInformations}</View>
       </View>
     );
   } else {
@@ -136,6 +149,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
+  },
+  informationDisplay: {
+    height: "90%",
+    marginVertical: "1%",
   },
   title: {
     fontSize: 30,
