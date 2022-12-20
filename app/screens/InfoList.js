@@ -131,11 +131,11 @@ function InfoList(props) {
 const styles = StyleSheet.create({
   button: {
     width: "20%",
-    height: "90%",
+    height: "80%",
     backgroundColor: colors.background,
     alignItems: "center",
     justifyContent: "center",
-    marginRight: "1%",
+    borderRadius: 10,
   },
   container: {
     backgroundColor: colors.background,
@@ -149,6 +149,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
+    paddingHorizontal: "3%",
   },
   informationDisplay: {
     height: "90%",
