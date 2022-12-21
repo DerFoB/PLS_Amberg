@@ -6,11 +6,12 @@ import colors from "../config/colors";
 import Icon from "../components/Icon";
 
 function InfoTile(props) {
-  const [trendName, setTrendName] = useState("minus");
-  const [trendColor, setTrendColor] = useState(colors.fontColor);
-
   //Only shows tile if carpark isnt closed
   if (props.Closed == 0) {
+    // trend-icon values
+    const [trendName, setTrendName] = useState("minus");
+    const [trendColor, setTrendColor] = useState(colors.fontColor);
+
     // changes trend-icon dependent on the incoming trend
     useEffect(() => {
       if (props.Trend < 0) {
@@ -43,7 +44,7 @@ function InfoTile(props) {
 const styles = StyleSheet.create({
   container: {
     height: 85,
-    backgroundColor: colors.primary,
+    backgroundColor: colors.secondary,
     marginVertical: 5,
     paddingHorizontal: "5%",
     borderRadius: 10,

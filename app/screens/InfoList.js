@@ -113,7 +113,7 @@ function InfoList(props) {
           >
             <Icon
               name={showMap ? "listIcon" : "mapIcon"}
-              fill={colors.secondary}
+              fill={colors.primary}
             />
           </TouchableOpacity>
         </SafeAreaView>
@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
   },
   header: {
     height: 90,
-    backgroundColor: colors.secondary,
+    backgroundColor: colors.primary,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
