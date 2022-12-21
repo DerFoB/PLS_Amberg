@@ -9,12 +9,14 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
+import MapView from "react-native-maps";
 
 import InfoTile from "../components/InfoTile";
 import colors from "../config/colors";
 import configData from "../config/configData";
 import { fetchXMLData, getData } from "../data/DataFetchAndStorage.js";
 import Icon from "../components/Icon";
+import { mapStyle } from "../config/mapStyle";
 
 function InfoList(props) {
   const [data, setData] = useState({}); //PLS data
@@ -51,18 +53,22 @@ function InfoList(props) {
     }
   }, []);
 
-  /*useEffect(() => {
-    console.log("gets triggered");
-    if (data != null) {
-      setTimestamp(data.Daten.Zeitstempel);
-    }
-  }, [data]);*/
-
   if (hasLoaded) {
     //Map of Amberg
     if (showMap) {
       {
-        var carparkInformations = <Text>geht</Text>;
+        var carparkInformations = (
+          <MapView
+            style={styles.map}
+            initialRegion={{
+              latitude: 49.444815,
+              longitude: 11.860117,
+              latitudeDelta: 0.01,
+              longitudeDelta: 0.016,
+            }}
+            customMapStyle={mapStyle}
+          />
+        );
       }
     }
     //List Overview over carparks
@@ -95,7 +101,9 @@ function InfoList(props) {
         <SafeAreaView style={styles.header}>
           <View>
             <Text style={styles.title}>PLS Amberg</Text>
-            <Text>aktualisiert am: {data.Daten.Zeitstempel}</Text>
+            <Text style={styles.timestamp}>
+              aktualisiert am: {data.Daten.Zeitstempel}
+            </Text>
           </View>
           <TouchableOpacity
             style={styles.button}
@@ -103,7 +111,10 @@ function InfoList(props) {
               setShowMap(!showMap);
             }}
           >
-            <Icon name={showMap ? "listIcon" : "mapIcon"} />
+            <Icon
+              name={showMap ? "listIcon" : "mapIcon"}
+              fill={colors.secondary}
+            />
           </TouchableOpacity>
         </SafeAreaView>
 
@@ -117,8 +128,8 @@ function InfoList(props) {
         <SafeAreaView>
           <Text style={styles.title}>PLS Amberg</Text>
         </SafeAreaView>
-        <Text>Die Daten werden geladen.</Text>
-        <Text>
+        <Text style={styles.timestamp}>Die Daten werden geladen.</Text>
+        <Text style={styles.timestamp}>
           Falls dieser Text länger als 5 Sekunden angezeigt wird, steht entweder
           das Parkleitsystem gerade nicht zur Verfügung oder Sie haben keine
           Verbindung zum Internet.
@@ -130,9 +141,9 @@ function InfoList(props) {
 
 const styles = StyleSheet.create({
   button: {
-    width: "20%",
-    height: "80%",
-    backgroundColor: colors.background,
+    height: 70,
+    aspectRatio: 1,
+    backgroundColor: colors.button,
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 10,
@@ -144,20 +155,30 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   header: {
-    height: "10%",
+    height: 90,
     backgroundColor: colors.secondary,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingHorizontal: "3%",
+    paddingHorizontal: 10,
   },
   informationDisplay: {
-    height: "90%",
+    height: "87%",
     marginVertical: "1%",
+    marginTop: 5,
+  },
+  map: {
+    width: "100%",
+    height: "100%",
   },
   title: {
     fontSize: 30,
     fontWeight: "bold",
+    color: colors.fontColor,
+  },
+  timestamp: {
+    fontSize: 15,
+    color: colors.fontColor,
   },
 });
 
