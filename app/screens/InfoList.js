@@ -9,7 +9,7 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
-import MapView from "react-native-maps";
+import MapView, { Marker } from "react-native-maps";
 
 import InfoTile from "../components/InfoTile";
 import colors from "../config/colors";
@@ -57,6 +57,28 @@ function InfoList(props) {
     //Map of Amberg
     if (showMap) {
       {
+        // fetch data for Markers
+        const mapMarkerJson = require("../data/CarparkData.json");
+
+        // place Markers on Map
+        var mapMarkers = mapMarkerJson.Parkhaus.map((carpark) => (
+          <Marker
+            key={carpark.ID}
+            coordinate={{
+              latitude: carpark.latitude,
+              longitude: carpark.longitude,
+            }}
+            title={carpark.name}
+            description={carpark.oeffnungszeiten}
+          >
+            <View style={styles.markerCircle}>
+              <Icon name="pin" fill={colors.secondary} />
+              <Text style={styles.markerPinText}>{carpark.ID}</Text>
+            </View>
+          </Marker>
+        ));
+
+        // draw Map
         var carparkInformations = (
           <MapView
             style={styles.map}
@@ -67,7 +89,9 @@ function InfoList(props) {
               longitudeDelta: 0.016,
             }}
             customMapStyle={mapStyle}
-          />
+          >
+            {mapMarkers}
+          </MapView>
         );
       }
     }
@@ -170,6 +194,17 @@ const styles = StyleSheet.create({
   map: {
     width: "100%",
     height: "100%",
+  },
+  markerCircle: {
+    alignItems: "center",
+  },
+  markerPinText: {
+    position: "absolute",
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
+    fontSize: 20,
+    marginBottom: 10,
   },
   title: {
     fontSize: 30,
