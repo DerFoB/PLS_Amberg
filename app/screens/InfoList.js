@@ -70,9 +70,14 @@ function InfoList(props) {
             }}
             title={carpark.name}
             description={carpark.oeffnungszeiten}
+            toolbarEnabled={true}
           >
             <View style={styles.markerCircle}>
-              <Icon name="pin" fill={colors.secondary} />
+              <Icon
+                name="pin"
+                fill={colors.secondary}
+                stroke={colors.outline}
+              />
               <Text style={styles.markerPinText}>{carpark.ID}</Text>
             </View>
           </Marker>
@@ -99,21 +104,26 @@ function InfoList(props) {
     else {
       {
         //map every carpark to an Infotile
-        var carparks = data.Daten.Parkhaus.map((carpark) => (
-          <InfoTile
+        var infotiles = data.Daten.Parkhaus.map((carpark) => (
+          <TouchableOpacity
             key={carpark.ID}
-            ID={carpark.ID}
-            Name={carpark.Name}
-            Total={carpark.Gesamt}
-            Current={carpark.Aktuell}
-            Available={carpark.Frei}
-            Trend={carpark.Trend}
-            Status={carpark.Status}
-            Closed={carpark.Geschlossen}
-          ></InfoTile>
+            onPress={() => setShowMap(!showMap) /*Hier alert öffnen oder so */}
+          >
+            <InfoTile
+              key={carpark.ID}
+              ID={carpark.ID}
+              Name={carpark.Name}
+              Total={carpark.Gesamt}
+              Current={carpark.Aktuell}
+              Available={carpark.Frei}
+              Trend={carpark.Trend}
+              Status={carpark.Status}
+              Closed={carpark.Geschlossen}
+            ></InfoTile>
+          </TouchableOpacity>
         ));
 
-        var carparkInformations = <ScrollView>{carparks}</ScrollView>;
+        var carparkInformations = <ScrollView>{infotiles}</ScrollView>;
       }
     }
   }
@@ -123,6 +133,14 @@ function InfoList(props) {
       <View style={styles.container}>
         {/*Header */}
         <SafeAreaView style={styles.header}>
+          <TouchableOpacity
+            style={styles.buttonSettings}
+            onPress={() => {
+              console.log("settings");
+            }}
+          >
+            <Icon name="settings" fill={colors.background} />
+          </TouchableOpacity>
           <View>
             <Text style={styles.title}>PLS Amberg</Text>
             <Text style={styles.timestamp}>
@@ -130,7 +148,7 @@ function InfoList(props) {
             </Text>
           </View>
           <TouchableOpacity
-            style={styles.button}
+            style={styles.buttonMap}
             onPress={() => {
               setShowMap(!showMap);
             }}
@@ -164,7 +182,7 @@ function InfoList(props) {
 }
 
 const styles = StyleSheet.create({
-  button: {
+  buttonMap: {
     height: 70,
     aspectRatio: 1,
     backgroundColor: colors.button,
@@ -172,10 +190,17 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderRadius: 10,
   },
+  buttonSettings: {
+    height: 70,
+    width: 20,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 10,
+  },
   container: {
     backgroundColor: colors.background,
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-    paddingHorizontal: 10,
+
     paddingBottom: 10,
   },
   header: {
@@ -190,6 +215,7 @@ const styles = StyleSheet.create({
     height: "87%",
     marginVertical: "1%",
     marginTop: 5,
+    paddingHorizontal: 10,
   },
   map: {
     width: "100%",
