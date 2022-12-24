@@ -10,16 +10,22 @@ import {
   TouchableOpacity,
 } from "react-native";
 import MapView, { Marker } from "react-native-maps";
+import { decode } from "html-entities";
 
 import InfoTile from "../components/InfoTile";
 import colors from "../config/colors";
 import configData from "../config/configData";
-import { fetchXMLData, getData } from "../data/DataFetchAndStorage.js";
+import {
+  fetchXMLData,
+  getData,
+  mergeJSON,
+} from "../data/DataFetchAndStorage.js";
 import Icon from "../components/Icon";
 import { mapStyle } from "../config/mapStyle";
 
 function InfoList(props) {
   const [data, setData] = useState({}); //PLS data
+  const [timestamp, setTimestamp] = useState({}); //last update timestamp
   const [hasLoaded, setHasLoaded] = useState(false); //if data is loaded or not
   const [showMap, setShowMap] = useState(false); //shows Map or Overview
   const [intervalRunning, setIntervalRunning] = useState(false); //so the data fetch Interval only gets triggered once
@@ -32,7 +38,10 @@ function InfoList(props) {
       //fetch the Data from the website
       await fetchXMLData(configData.path);
       //get the Data from the storage
-      await getData().then((response) => setData(response));
+      await getData().then((response) => {
+        setData(response.Daten.Parkhaus);
+        setTimestamp(response.Daten.Zeitstempel);
+      });
 
       setHasLoaded(true);
       console.log("only once");
@@ -46,7 +55,10 @@ function InfoList(props) {
         //fetch the Data from the website
         fetchXMLData(configData.path);
         //get the Data from the storage
-        getData().then((response) => setData(response));
+        getData().then((response) => {
+          setData(response.Daten.Parkhaus);
+          setTimestamp(response.Daten.Zeitstempel);
+        });
         console.log("still working");
       }, 60000);
       setIntervalRunning(true);
@@ -60,16 +72,18 @@ function InfoList(props) {
         // fetch data for Markers
         const mapMarkerJson = require("../data/CarparkData.json");
 
+        console.log(mergeJSON(data, mapMarkerJson.Parkhaus));
+
         // place Markers on Map
         var mapMarkers = mapMarkerJson.Parkhaus.map((carpark) => (
           <Marker
             key={carpark.ID}
             coordinate={{
-              latitude: carpark.latitude,
-              longitude: carpark.longitude,
+              latitude: carpark.Latitude,
+              longitude: carpark.Longitude,
             }}
-            title={carpark.name}
-            description={carpark.oeffnungszeiten}
+            title={decode(carpark.Name)}
+            description={carpark.Oeffnungszeiten}
             toolbarEnabled={true}
           >
             <View style={styles.markerCircle}>
@@ -104,7 +118,7 @@ function InfoList(props) {
     else {
       {
         //map every carpark to an Infotile
-        var infotiles = data.Daten.Parkhaus.map((carpark) => (
+        var infotiles = data.map((carpark) => (
           <TouchableOpacity
             key={carpark.ID}
             onPress={() => setShowMap(!showMap) /*Hier alert öffnen oder so */}
@@ -143,9 +157,7 @@ function InfoList(props) {
           </TouchableOpacity>
           <View>
             <Text style={styles.title}>PLS Amberg</Text>
-            <Text style={styles.timestamp}>
-              aktualisiert am: {data.Daten.Zeitstempel}
-            </Text>
+            <Text style={styles.timestamp}>aktualisiert am: {timestamp}</Text>
           </View>
           <TouchableOpacity
             style={styles.buttonMap}

@@ -1,5 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { XMLParser } from "fast-xml-parser";
+import { merge } from "lodash";
 
 //fetch XML data from path
 function fetchXMLData(path) {
@@ -39,4 +40,29 @@ async function getData() {
   }
 }
 
-module.exports = { fetchXMLData, getData };
+function mergeJSON(json1, json2) {
+  const objectsByName = {};
+
+  // Store json1 objects by name.
+  for (const obj1 of json1) {
+    objectsByName[obj1.Name] = obj1;
+  }
+
+  for (const obj2 of json2) {
+    const name = obj2.Name;
+
+    if (objectsByName[name]) {
+      // Object already exists, need to merge.
+      // Using lodash's merge because it works for deep properties, unlike object.assign.
+      objectsByName[name] = merge(objectsByName[name], obj2);
+    } else {
+      // Object doesn't exist in merged, add it.
+      objectsByName[name] = obj2;
+    }
+  }
+
+  // All objects have been merged or added. Convert our map to an array.
+  return Object.values(objectsByName);
+}
+
+module.exports = { fetchXMLData, getData, mergeJSON };
