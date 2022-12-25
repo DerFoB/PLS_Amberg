@@ -40,29 +40,39 @@ async function getData() {
   }
 }
 
+//merge two JSON Files by the key "Name"
 function mergeJSON(json1, json2) {
-  const objectsByName = {};
+  try {
+    const objectsByName = {};
 
-  // Store json1 objects by name.
-  for (const obj1 of json1) {
-    objectsByName[obj1.Name] = obj1;
-  }
-
-  for (const obj2 of json2) {
-    const name = obj2.Name;
-
-    if (objectsByName[name]) {
-      // Object already exists, need to merge.
-      // Using lodash's merge because it works for deep properties, unlike object.assign.
-      objectsByName[name] = merge(objectsByName[name], obj2);
-    } else {
-      // Object doesn't exist in merged, add it.
-      objectsByName[name] = obj2;
+    // Store json1 objects by name.
+    for (const obj1 of json1) {
+      objectsByName[obj1.Name] = obj1;
     }
-  }
 
-  // All objects have been merged or added. Convert our map to an array.
-  return Object.values(objectsByName);
+    for (const obj2 of json2) {
+      const name = obj2.Name;
+
+      if (objectsByName[name]) {
+        // Object already exists, need to merge.
+        // Using lodash's merge because it works for deep properties, unlike object.assign.
+        objectsByName[name] = merge(objectsByName[name], obj2);
+      } else {
+        // Object doesn't exist in merged, add it.
+        objectsByName[name] = obj2;
+      }
+    }
+
+    // All objects have been merged or added. Convert our map to an array.
+    return Object.values(objectsByName);
+  } catch (error) {
+    console.log(error);
+    var oldData = [];
+    getData().then((response) => {
+      oldData = response;
+    });
+    return oldData;
+  }
 }
 
 module.exports = { fetchXMLData, getData, mergeJSON };

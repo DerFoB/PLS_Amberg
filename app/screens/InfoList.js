@@ -37,9 +37,12 @@ function InfoList(props) {
     const callApi = async () => {
       //fetch the Data from the website
       await fetchXMLData(configData.path);
+      // fetch data for Markers from database
+      const markerJSON = require("../data/CarparkData.json");
+
       //get the Data from the storage
       await getData().then((response) => {
-        setData(response.Daten.Parkhaus);
+        setData(mergeJSON(response.Daten.Parkhaus, markerJSON.Parkhaus));
         setTimestamp(response.Daten.Zeitstempel);
       });
 
@@ -49,14 +52,16 @@ function InfoList(props) {
 
     callApi();
 
+    //fires every Minute
     if (!intervalRunning) {
-      //fires every Minute
       const interval = setInterval(() => {
         //fetch the Data from the website
         fetchXMLData(configData.path);
+        // fetch data for Markers from database
+        const markerJSON = require("../data/CarparkData.json");
         //get the Data from the storage
         getData().then((response) => {
-          setData(response.Daten.Parkhaus);
+          setData(mergeJSON(response.Daten.Parkhaus, markerJSON.Parkhaus));
           setTimestamp(response.Daten.Zeitstempel);
         });
         console.log("still working");
@@ -69,13 +74,8 @@ function InfoList(props) {
     //Map of Amberg
     if (showMap) {
       {
-        // fetch data for Markers
-        const mapMarkerJson = require("../data/CarparkData.json");
-
-        console.log(mergeJSON(data, mapMarkerJson.Parkhaus));
-
         // place Markers on Map
-        var mapMarkers = mapMarkerJson.Parkhaus.map((carpark) => (
+        var mapMarkers = data.map((carpark) => (
           <Marker
             key={carpark.ID}
             coordinate={{
