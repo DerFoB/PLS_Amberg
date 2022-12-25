@@ -3,7 +3,7 @@ import { XMLParser } from "fast-xml-parser";
 import { merge } from "lodash";
 
 //fetch XML data from path
-function fetchXMLData(path) {
+function fetchXMLData(path, storage) {
   var parser = new XMLParser();
 
   fetch(path)
@@ -11,7 +11,7 @@ function fetchXMLData(path) {
     .then(
       (result) => {
         let parsedObject = parser.parse(result);
-        storeData(parsedObject);
+        storeData(parsedObject, storage);
       },
       (error) => {
         console.log(error);
@@ -20,19 +20,19 @@ function fetchXMLData(path) {
 }
 
 //storing the data globally with AsynchStorage
-const storeData = async (data) => {
+const storeData = async (data, storage) => {
   try {
     jsonObject = JSON.stringify(data);
-    await AsyncStorage.setItem("@Data", jsonObject);
+    await AsyncStorage.setItem(storage, jsonObject);
   } catch (error) {
     console.log(error);
   }
 };
 
 //getting the Data from the storage of AsynchStorage
-async function getData() {
+async function getData(storage) {
   try {
-    const jsonValue = await AsyncStorage.getItem("@Data");
+    const jsonValue = await AsyncStorage.getItem(storage);
     return jsonValue != null ? JSON.parse(jsonValue) : null;
   } catch (error) {
     console.log(error);

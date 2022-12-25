@@ -36,12 +36,12 @@ function InfoList(props) {
     //wait for the first load before render
     const callApi = async () => {
       //fetch the Data from the website
-      await fetchXMLData(configData.path);
+      await fetchXMLData(configData.path, configData.storage);
       // fetch data for Markers from database
       const markerJSON = require("../data/CarparkData.json");
 
       //get the Data from the storage
-      await getData().then((response) => {
+      await getData(configData.storage).then((response) => {
         setData(mergeJSON(response.Daten.Parkhaus, markerJSON.Parkhaus));
         setTimestamp(response.Daten.Zeitstempel);
       });
@@ -56,11 +56,11 @@ function InfoList(props) {
     if (!intervalRunning) {
       const interval = setInterval(() => {
         //fetch the Data from the website
-        fetchXMLData(configData.path);
+        fetchXMLData(configData.path, configData.storage);
         // fetch data for Markers from database
         const markerJSON = require("../data/CarparkData.json");
         //get the Data from the storage
-        getData().then((response) => {
+        getData(configData.storage).then((response) => {
           setData(mergeJSON(response.Daten.Parkhaus, markerJSON.Parkhaus));
           setTimestamp(response.Daten.Zeitstempel);
         });
