@@ -119,22 +119,17 @@ function InfoList(props) {
       {
         //map every carpark to an Infotile
         var infotiles = data.map((carpark) => (
-          <TouchableOpacity
+          <InfoTile
             key={carpark.ID}
-            onPress={() => setShowMap(!showMap) /*Hier alert öffnen oder so */}
-          >
-            <InfoTile
-              key={carpark.ID}
-              ID={carpark.ID}
-              Name={carpark.Name}
-              Total={carpark.Gesamt}
-              Current={carpark.Aktuell}
-              Available={carpark.Frei}
-              Trend={carpark.Trend}
-              Status={carpark.Status}
-              Closed={carpark.Geschlossen}
-            ></InfoTile>
-          </TouchableOpacity>
+            ID={carpark.ID}
+            Name={carpark.Name}
+            Total={carpark.Gesamt}
+            Current={carpark.Aktuell}
+            Available={carpark.Frei}
+            Trend={carpark.Trend}
+            Status={carpark.Status}
+            Closed={carpark.Geschlossen}
+          ></InfoTile>
         ));
 
         var carparkInformations = <ScrollView>{infotiles}</ScrollView>;
