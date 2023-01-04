@@ -11,6 +11,7 @@ import {
 
 import colors from "../config/colors";
 import Icon from "../components/Icon";
+import PageMask from "./PageMask";
 
 function InfoTile(props) {
   if (props.ID != null) {
@@ -55,7 +56,7 @@ function InfoTile(props) {
             setShowDetailedInfo(!showDetailedInfo);
           }}
         >
-          <View style={styles.page_mask} />
+          <PageMask />
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
               <Text style={styles.modalText}>{decode(props.Name)}</Text>
@@ -133,14 +134,6 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 25,
     color: colors.fontColor,
-  },
-  page_mask: {
-    position: "absolute",
-    left: 0,
-    width: "100%",
-    top: 0,
-    height: "100%",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   space: {
     fontSize: 15,
