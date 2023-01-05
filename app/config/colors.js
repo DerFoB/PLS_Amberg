@@ -8,6 +8,8 @@ export default {
   primary: "#4ecdc4",
   secondary: "#fc5c65",
   favorite: "#eb8028",
+  stateOff: "#767577",
+  thumb: "#c7c7c7",
   trendDown: "#8c0000",
   trendUp: "#04a71e",
 };

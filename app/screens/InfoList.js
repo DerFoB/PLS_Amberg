@@ -8,6 +8,8 @@ import {
   Text,
   ScrollView,
   TouchableOpacity,
+  Modal,
+  Switch,
 } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import { decode } from "html-entities";
@@ -23,6 +25,7 @@ import {
 } from "../data/DataFetchAndStorage.js";
 import Icon from "../components/Icon";
 import { mapStyle } from "../config/mapStyle";
+import PageMask from "../components/PageMask";
 
 function InfoList(props) {
   const [data, setData] = useState({}); //PLS data
@@ -32,6 +35,13 @@ function InfoList(props) {
   const [intervalRunning, setIntervalRunning] = useState(false); //so the data fetch Interval only gets triggered once
   const [favorites, setFavorites] = useState([]); //list of favorites picked by the user
   const [saveChanges, setSaveChanges] = useState(0); // this is only here to force useEffect to act, cause it doesnt detect changes in an array
+  const [showSettings, setShowSettings] = useState(false); // if modal is open or not
+
+  //settings
+  const [ttsEnabled, setTTSEnabled] = useState(false);
+  const toggleTTSSwitch = () => setTTSEnabled(!ttsEnabled);
+  const [onlyFavorites, setOnlyFavorites] = useState(false);
+  const toggleFavoritesSwitch = () => setOnlyFavorites(!onlyFavorites);
 
   //callback function for child component to change favorites
   function changeFavorites(newFavorite) {
@@ -106,7 +116,7 @@ function InfoList(props) {
             <View style={styles.markerCircle}>
               <Icon
                 name="pin"
-                fill={colors.secondary}
+                fill={carpark.Closed ? colors.secondary : colors.primary}
                 stroke={colors.outline}
               />
               <Text style={styles.markerPinText}>{carpark.ID}</Text>
@@ -165,7 +175,7 @@ function InfoList(props) {
           <TouchableOpacity
             style={styles.buttonSettings}
             onPress={() => {
-              console.log("settings");
+              setShowSettings(true);
             }}
           >
             <Icon name="settings" fill={colors.background} />
@@ -189,6 +199,60 @@ function InfoList(props) {
 
         {/*Information Display */}
         <View style={styles.informationDisplay}>{carparkInformations}</View>
+
+        {/*Settings */}
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={showSettings}
+          onRequestClose={() => {
+            setShowSettings(!showSettings);
+          }}
+        >
+          <PageMask />
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Text style={styles.modalTextHeader}>Settings</Text>
+
+              <View style={styles.modalSettingsBlock}>
+                <Text style={styles.modalCaption}>Sprachausgabe:</Text>
+                <Switch
+                  trackColor={{
+                    false: colors.stateOff,
+                    true: colors.modalButton,
+                  }}
+                  thumbColor={colors.thumb}
+                  onValueChange={toggleTTSSwitch}
+                  value={ttsEnabled}
+                  style={styles.modalSwitch}
+                />
+              </View>
+
+              <View style={styles.modalSettingsBlock}>
+                <Text style={styles.modalCaption}>Nur Favoriten anzeigen:</Text>
+                <Switch
+                  trackColor={{
+                    false: colors.stateOff,
+                    true: colors.modalButton,
+                  }}
+                  thumbColor={colors.thumb}
+                  onValueChange={toggleFavoritesSwitch}
+                  value={onlyFavorites}
+                  style={styles.modalSwitch}
+                />
+              </View>
+
+              <View style={styles.modalButtonContainer}>
+                <TouchableOpacity
+                  style={styles.modalButton}
+                  onPress={() => setShowSettings(!showSettings)}
+                >
+                  <Text style={styles.modalButtonText}>Schließen</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </Modal>
       </View>
     );
   } else {
@@ -224,6 +288,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderRadius: 10,
   },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22,
+  },
   container: {
     backgroundColor: colors.background,
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
@@ -258,6 +328,62 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 20,
     marginBottom: 10,
+  },
+  modalButton: {
+    borderRadius: 20,
+    padding: 10,
+    marginBottom: 15,
+    elevation: 2,
+    backgroundColor: colors.modalButton,
+    width: 200,
+  },
+  modalButtonText: {
+    color: colors.fontColor,
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  modalButtonContainer: {
+    position: "absolute",
+    bottom: 15,
+    alignSelf: "center",
+  },
+  modalCaption: {
+    textAlign: "left",
+    fontSize: 15,
+    color: colors.modalFontColor,
+    flex: 1,
+  },
+  modalTextHeader: {
+    marginBottom: 15,
+    textAlign: "center",
+    fontSize: 25,
+    fontWeight: "bold",
+    color: colors.modalFontColor,
+  },
+  modalSettingsBlock: {
+    marginBottom: 15,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  modalSwitch: {
+    position: "relative",
+    top: 3,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: colors.background,
+    borderRadius: 20,
+    padding: 35,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    width: "75%",
+    height: "50%",
   },
   title: {
     fontSize: 30,

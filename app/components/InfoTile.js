@@ -11,7 +11,8 @@ function InfoTile(props) {
     // trend-icon values
     const [trendName, setTrendName] = useState("minus");
     const [trendColor, setTrendColor] = useState(colors.fontColor);
-    const [showDetailedInfo, setShowDetailedInfo] = useState(false);
+
+    const [showDetailedInfo, setShowDetailedInfo] = useState(false); // if modal is open or not
     const [rerenderComponent, setrerenderComponent] = useState(false); // this is only here to force a rerender, so the changes will show up
 
     // adds to or removes from favorites array in Parent Class
@@ -27,7 +28,7 @@ function InfoTile(props) {
           favorites.pop();
         }
       }
-      setrerenderComponent(!rerenderComponent); //force rerender
+      setrerenderComponent(!rerenderComponent); // force rerender
       props.onPress(favorites);
     }
 
@@ -79,14 +80,14 @@ function InfoTile(props) {
           <PageMask />
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
-              <Text style={styles.modalTextName}>{decode(props.Name)}</Text>
+              <Text style={styles.modalTextHeader}>{decode(props.Name)}</Text>
               <View style={styles.modalTextBlock}>
-                <Text style={styles.modalTextHeader}>Parkplätze:</Text>
+                <Text style={styles.modalTextCaption}>Parkplätze:</Text>
                 <Text style={styles.modalText}>Gesamt: {props.Total}</Text>
                 <Text style={styles.modalText}>Frei: {props.Available}</Text>
               </View>
               <View style={styles.modalTextBlock}>
-                <Text style={styles.modalTextHeader}>Öffnungszeiten:</Text>
+                <Text style={styles.modalTextCaption}>Öffnungszeiten:</Text>
                 <Text style={styles.modalText}>{props.Hours}</Text>
                 <Text style={styles.modalText}>
                   Gerade ist der Parkplatz{" "}
@@ -172,13 +173,13 @@ const styles = StyleSheet.create({
   modalTextBlock: {
     marginBottom: 15,
   },
-  modalTextHeader: {
+  modalTextCaption: {
     textAlign: "left",
     fontSize: 15,
     textDecorationLine: "underline",
     color: colors.modalFontColor,
   },
-  modalTextName: {
+  modalTextHeader: {
     marginBottom: 15,
     textAlign: "center",
     fontSize: 25,
