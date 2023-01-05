@@ -159,6 +159,7 @@ function InfoList(props) {
             Hours={carpark.Oeffnungszeiten}
             Favorites={favorites}
             onPress={changeFavorites}
+            OnlyFavorites={onlyFavorites}
           ></InfoTile>
         ));
 

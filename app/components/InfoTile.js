@@ -43,7 +43,7 @@ function InfoTile(props) {
       }
     }, []);
 
-    return (
+    var infoTile = (
       <TouchableOpacity onPress={() => setShowDetailedInfo(true)}>
         <View
           style={[
@@ -117,6 +117,14 @@ function InfoTile(props) {
         </Modal>
       </TouchableOpacity>
     );
+
+    if (props.OnlyFavorites) {
+      if (props.Favorites.includes(props.Name)) {
+        return <View>{infoTile}</View>;
+      }
+    } else {
+      return <View>{infoTile}</View>;
+    }
   }
 }
 
