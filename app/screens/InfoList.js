@@ -19,6 +19,7 @@ import {
   fetchXMLData,
   getData,
   mergeJSON,
+  storeData,
 } from "../data/DataFetchAndStorage.js";
 import Icon from "../components/Icon";
 import { mapStyle } from "../config/mapStyle";
@@ -29,15 +30,19 @@ function InfoList(props) {
   const [hasLoaded, setHasLoaded] = useState(false); //if data is loaded or not
   const [showMap, setShowMap] = useState(false); //shows Map or Overview
   const [intervalRunning, setIntervalRunning] = useState(false); //so the data fetch Interval only gets triggered once
-  const [favorites, setFavorites] = useState([]);
+  const [favorites, setFavorites] = useState([]); //list of favorites picked by the user
+  const [saveChanges, setSaveChanges] = useState(0); // this is only here to force useEffect to act, cause it doesnt detect changes in an array
 
+  //callback function for child component to change favorites
   function changeFavorites(newFavorite) {
     setFavorites(newFavorite);
+    setSaveChanges(saveChanges + 1);
   }
 
+  //stores the new favorites after each change
   useEffect(() => {
-    console.log("es geht", favorites);
-  }, [favorites]);
+    storeData(favorites, configData.favorites);
+  }, [saveChanges]);
 
   //fetch and get the data
   useEffect(() => {
@@ -53,6 +58,9 @@ function InfoList(props) {
       await getData(configData.storage).then((response) => {
         setData(mergeJSON(response.Daten.Parkhaus, markerJSON.Parkhaus));
         setTimestamp(response.Daten.Zeitstempel);
+      });
+      await getData(configData.favorites).then((response) => {
+        setFavorites(response);
       });
 
       setHasLoaded(true);

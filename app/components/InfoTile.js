@@ -21,12 +21,13 @@ function InfoTile(props) {
       if (!favorites.includes(props.Name)) {
         favorites.push(props.Name);
       } else {
-        favorites.splice(favorites.indexOf(props.Name), 1);
+        if (favorites.length > 1) {
+          favorites.splice(favorites.indexOf(props.Name), 1);
+        } else {
+          favorites.pop();
+        }
       }
-      console.log(favorites);
-
-      setrerenderComponent(!rerenderComponent);
-
+      setrerenderComponent(!rerenderComponent); //force rerender
       props.onPress(favorites);
     }
 
