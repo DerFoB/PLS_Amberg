@@ -39,9 +39,15 @@ function InfoList(props) {
 
   //settings
   const [ttsEnabled, setTTSEnabled] = useState(false);
-  const toggleTTSSwitch = () => setTTSEnabled(!ttsEnabled);
+  const toggleTTSSwitch = () => {
+    setTTSEnabled(!ttsEnabled);
+    setSaveChanges(saveChanges + 1);
+  };
   const [onlyFavorites, setOnlyFavorites] = useState(false);
-  const toggleFavoritesSwitch = () => setOnlyFavorites(!onlyFavorites);
+  const toggleFavoritesSwitch = () => {
+    setOnlyFavorites(!onlyFavorites);
+    setSaveChanges(saveChanges + 1);
+  };
 
   //callback function for child component to change favorites
   function changeFavorites(newFavorite) {
@@ -52,6 +58,8 @@ function InfoList(props) {
   //stores the new favorites after each change
   useEffect(() => {
     storeData(favorites, configData.favorites);
+    storeData(ttsEnabled, configData.ttsSetting);
+    storeData(onlyFavorites, configData.favoritesSetting);
   }, [saveChanges]);
 
   //fetch and get the data
@@ -71,6 +79,12 @@ function InfoList(props) {
       });
       await getData(configData.favorites).then((response) => {
         setFavorites(response);
+      });
+      await getData(configData.ttsSetting).then((response) => {
+        setTTSEnabled(response);
+      });
+      await getData(configData.favoritesSetting).then((response) => {
+        setOnlyFavorites(response);
       });
 
       setHasLoaded(true);
@@ -213,7 +227,7 @@ function InfoList(props) {
           <PageMask />
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
-              <Text style={styles.modalTextHeader}>Settings</Text>
+              <Text style={styles.modalTextHeader}>Einstellungen</Text>
 
               <View style={styles.modalSettingsBlock}>
                 <Text style={styles.modalCaption}>Sprachausgabe:</Text>

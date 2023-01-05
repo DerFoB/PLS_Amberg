@@ -3,4 +3,6 @@ export default {
 
   storage: "@Data", // storage for Data for asynch storage
   favorites: "@Favorites", // storage for user favorites
+  ttsSetting: "TTSSetting", // storage for setting
+  favoritesSetting: "FavoritesSetting", // storage for setting
 };

@@ -27,6 +27,9 @@ function InfoTile(props) {
         } else {
           favorites.pop();
         }
+        if (props.OnlyFavorites) {
+          setShowDetailedInfo(false);
+        }
       }
       setrerenderComponent(!rerenderComponent); // force rerender
       props.onPress(favorites);
