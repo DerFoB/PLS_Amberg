@@ -13,6 +13,19 @@ function InfoTile(props) {
     const [trendColor, setTrendColor] = useState(colors.fontColor);
     const [showDetailedInfo, setShowDetailedInfo] = useState(false);
 
+    function changeFavorites() {
+      const favorites = props.Favorites;
+
+      if (!favorites.includes(props.Name)) {
+        favorites.push(props.Name);
+      } else {
+        favorites.splice(favorites.indexOf(props.Name), 1);
+      }
+      console.log(favorites);
+
+      props.onPress(favorites);
+    }
+
     // changes trend-icon dependent on the incoming trend
     useEffect(() => {
       if (props.Trend < 0) {
@@ -69,9 +82,7 @@ function InfoTile(props) {
               <View style={styles.modalButtonContainer}>
                 <TouchableOpacity
                   style={styles.modalButton}
-                  onPress={() => {
-                    console.log(props.Name);
-                  }}
+                  onPress={changeFavorites}
                 >
                   <Text style={styles.buttonText}>zu Favoriten hinzufügen</Text>
                 </TouchableOpacity>

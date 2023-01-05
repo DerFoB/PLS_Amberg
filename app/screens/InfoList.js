@@ -29,6 +29,15 @@ function InfoList(props) {
   const [hasLoaded, setHasLoaded] = useState(false); //if data is loaded or not
   const [showMap, setShowMap] = useState(false); //shows Map or Overview
   const [intervalRunning, setIntervalRunning] = useState(false); //so the data fetch Interval only gets triggered once
+  const [favorites, setFavorites] = useState([]);
+
+  function changeFavorites(newFavorite) {
+    setFavorites(newFavorite);
+  }
+
+  useEffect(() => {
+    console.log("es geht", favorites);
+  }, [favorites]);
 
   //fetch and get the data
   useEffect(() => {
@@ -130,6 +139,8 @@ function InfoList(props) {
             Status={carpark.Status}
             Closed={carpark.Geschlossen}
             Hours={carpark.Oeffnungszeiten}
+            Favorites={favorites}
+            onPress={changeFavorites}
           ></InfoTile>
         ));
 
