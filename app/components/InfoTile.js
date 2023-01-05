@@ -46,6 +46,14 @@ function InfoTile(props) {
       }
     }, []);
 
+    var prices = props.Price.map((data, index) => {
+      return (
+        <Text key={index} style={styles.modalText}>
+          {data}
+        </Text>
+      );
+    });
+
     var infoTile = (
       <TouchableOpacity onPress={() => setShowDetailedInfo(true)}>
         <View
@@ -84,11 +92,13 @@ function InfoTile(props) {
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
               <Text style={styles.modalTextHeader}>{decode(props.Name)}</Text>
+
               <View style={styles.modalTextBlock}>
                 <Text style={styles.modalTextCaption}>Parkplätze:</Text>
                 <Text style={styles.modalText}>Gesamt: {props.Total}</Text>
                 <Text style={styles.modalText}>Frei: {props.Available}</Text>
               </View>
+
               <View style={styles.modalTextBlock}>
                 <Text style={styles.modalTextCaption}>Öffnungszeiten:</Text>
                 <Text style={styles.modalText}>{props.Hours}</Text>
@@ -97,6 +107,12 @@ function InfoTile(props) {
                   {props.Closed == 0 ? "geöffnet" : "geschlossen"}.
                 </Text>
               </View>
+
+              <View style={styles.modalTextBlock}>
+                <Text style={styles.modalTextCaption}>Preise:</Text>
+                {prices}
+              </View>
+
               <View style={styles.modalButtonContainer}>
                 <TouchableOpacity
                   style={styles.modalButton}
@@ -136,7 +152,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 22,
+    marginTop: 10,
   },
   container: {
     height: 85,
@@ -211,7 +227,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
     width: "75%",
-    height: "50%",
+    height: "90%",
   },
   name: {
     fontSize: 25,

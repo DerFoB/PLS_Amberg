@@ -5,63 +5,121 @@
       "Name": "Kurf&#252;rstengarage",
       "Latitude": 49.44169107096248,
       "Longitude": 11.859986606564314,
-      "Oeffnungszeiten": "täglich von 0 bis 24 Uhr"
+      "Oeffnungszeiten": "täglich von 0 bis 24 Uhr",
+      "Preis": ["keine Informationen bekannt"]
     },
     {
       "ID": "2",
       "Name": "Theatergarage",
       "Latitude": 49.446434365482475,
       "Longitude": 11.85482277682796,
-      "Oeffnungszeiten": "täglich von 0 bis 24 Uhr"
+      "Oeffnungszeiten": "täglich von 0 bis 24 Uhr",
+      "Preis": [
+        "1 Stunde 1,50 Euro",
+        "2 Stunden 2,50 Euro",
+        "3 Stunden 3,50 Euro",
+        "4 Stunden 4,50 Euro",
+        "5 Stunden 5,50 Euro",
+        "6 Stunden 6,50 Euro",
+        "7 bis 25 Stunden 7,50 Euro",
+        "jeder weitere Tag 7,50 Euro",
+        "__________________",
+        "Nachttarif von 20.30 bis 7 Uhr je Stunden 0,50 Euro"
+      ]
     },
     {
       "ID": "3",
       "Name": "Kr&#228;uterwiese",
       "Latitude": 49.448592518330216,
       "Longitude": 11.853028955538466,
-      "Oeffnungszeiten": "täglich von 0 bis 24 Uhr"
+      "Oeffnungszeiten": "täglich von 0 bis 24 Uhr",
+      "Preis": [
+        "1 Stunde 0,50 Euro",
+        "5 Stunden 1 Euro",
+        "ganzer Tag 2 Euro",
+        "__________________",
+        "Monatsticket 15 Euro",
+        "Jahresticket 120 Euro"
+      ]
     },
     {
       "ID": "4",
       "Name": "Am Ziegeltor",
       "Latitude": 49.448539701069954,
       "Longitude": 11.856600497414732,
-      "Oeffnungszeiten": "täglich von 0 bis 24 Uhr"
+      "Oeffnungszeiten": "täglich von 0 bis 24 Uhr",
+      "Preis": [
+        "Parken tagsüber - 8 bis 19 Uhr",
+        "- Erste Stunde: 1,00 €",
+        "- jede weitere angefangene Stunde: 0,50 €",
+        "- maximal tagsüber: 5,00 €",
+        "__________________",
+        "Parken nachts - 19 bis 8 Uhr",
+        "- Erste Stunde: 0,50 €",
+        "- jede weitere angefangene Stunde: 0,50 €",
+        "- maximal nachts: 1,50 ",
+        "__________________",
+        "Maximal-Preis für 24 Studen: 6,50 Euro"
+      ]
     },
     {
       "ID": "5",
       "Name": "Kurf&#252;rstenbad",
       "Latitude": 49.44173061798284,
       "Longitude": 11.858032506269334,
-      "Oeffnungszeiten": "täglich von 0 bis 24 Uhr"
+      "Oeffnungszeiten": "täglich von 0 bis 24 Uhr",
+      "Preis": [
+        "Parken tagsüber - 8 bis 19 Uhr",
+        "- Erste Stunde: 1,00 €",
+        "- jede weitere angefangene Stunde: 0,50 €",
+        "- maximal tagsüber: 5,00 €",
+        "__________________",
+        "Parken nachts - 19 bis 8 Uhr",
+        "- Erste Stunde: 0,50 €",
+        "- jede weitere angefangene Stunde: 0,50 €",
+        "- maximal nachts: 1,50 ",
+        "__________________",
+        "Maximal-Preis für 24 Studen: 6,50 Euro"
+      ]
     },
     {
       "ID": "6",
       "Name": "Kino",
       "Latitude": 49.44464453954624,
       "Longitude": 11.865120948480677,
-      "Oeffnungszeiten": "-"
+      "Oeffnungszeiten": "-",
+      "Preis": ["keine Informationen bekannt"]
     },
     {
       "ID": "7",
       "Name": "ACC",
       "Latitude": 49.440839551889454,
       "Longitude": 11.860935343571217,
-      "Oeffnungszeiten": "täglich von 0 bis 24 Uhr"
+      "Oeffnungszeiten": "täglich von 0 bis 24 Uhr",
+      "Preis": ["keine Informationen bekannt"]
     },
     {
       "ID": "8",
       "Name": "Altstadtgarage",
       "Latitude": 49.44734724503339,
       "Longitude": 11.861764294751142,
-      "Oeffnungszeiten": "täglich von 0 bis 24 Uhr"
+      "Oeffnungszeiten": "täglich von 0 bis 24 Uhr",
+      "Preis": [
+        "30 Minuten 0,70 Euro",
+        "60 Minuten 1,40 Euro",
+        "90 Minuten 2,10 Euro",
+        "120 Minuten 2,80 Euro",
+        "__________________",
+        "Höchstparkdauer 2 Stunden"
+      ]
     },
     {
       "ID": "9",
       "Name": "Marienstra&#223;e",
       "Latitude": 49.44440657667481,
       "Longitude": 11.866457683942192,
-      "Oeffnungszeiten": "täglich von 0 bis 24 Uhr"
+      "Oeffnungszeiten": "täglich von 0 bis 24 Uhr",
+      "Preis": ["pro Stunde: 1,50 €", "maximal 10 Euro am Tag"]
     }
   ]
 }

@@ -171,6 +171,7 @@ function InfoList(props) {
             Status={carpark.Status}
             Closed={carpark.Geschlossen}
             Hours={carpark.Oeffnungszeiten}
+            Price={carpark.Preis}
             Favorites={favorites}
             onPress={changeFavorites}
             OnlyFavorites={onlyFavorites}
