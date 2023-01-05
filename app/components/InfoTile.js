@@ -1,13 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { decode } from "html-entities";
-import {
-  View,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  Modal,
-  Pressable,
-} from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity, Modal } from "react-native";
 
 import colors from "../config/colors";
 import Icon from "../components/Icon";
@@ -59,13 +52,36 @@ function InfoTile(props) {
           <PageMask />
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
-              <Text style={styles.modalText}>{decode(props.Name)}</Text>
-              <Pressable
-                style={styles.buttonClose}
-                onPress={() => setShowDetailedInfo(!showDetailedInfo)}
-              >
-                <Text style={styles.buttonText}>Hide Modal</Text>
-              </Pressable>
+              <Text style={styles.modalTextName}>{decode(props.Name)}</Text>
+              <View style={styles.modalTextBlock}>
+                <Text style={styles.modalTextHeader}>Parkplätze:</Text>
+                <Text style={styles.modalText}>Gesamt: {props.Total}</Text>
+                <Text style={styles.modalText}>Frei: {props.Available}</Text>
+              </View>
+              <View style={styles.modalTextBlock}>
+                <Text style={styles.modalTextHeader}>Öffnungszeiten:</Text>
+                <Text style={styles.modalText}>{props.Hours}</Text>
+                <Text style={styles.modalText}>
+                  Gerade ist der Parkplatz{" "}
+                  {props.Closed == 0 ? "geöffnet" : "geschlossen"}.
+                </Text>
+              </View>
+              <View style={styles.modalButtonContainer}>
+                <TouchableOpacity
+                  style={styles.modalButton}
+                  onPress={() => {
+                    console.log(props.Name);
+                  }}
+                >
+                  <Text style={styles.buttonText}>zu Favoriten hinzufügen</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.modalButton}
+                  onPress={() => setShowDetailedInfo(!showDetailedInfo)}
+                >
+                  <Text style={styles.buttonText}>Schließen</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
         </Modal>
@@ -75,14 +91,8 @@ function InfoTile(props) {
 }
 
 const styles = StyleSheet.create({
-  buttonClose: {
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
-    backgroundColor: "#2196F3",
-  },
   buttonText: {
-    color: "white",
+    color: colors.fontColor,
     fontWeight: "bold",
     textAlign: "center",
   },
@@ -112,16 +122,45 @@ const styles = StyleSheet.create({
     flex: 1, // pushes the trend-icon to the "bottom"/right of the flex
     top: -2,
   },
+  modalButton: {
+    borderRadius: 20,
+    padding: 10,
+    marginBottom: 15,
+    elevation: 2,
+    backgroundColor: colors.modalButton,
+  },
+  modalButtonContainer: {
+    position: "absolute",
+    bottom: 15,
+    alignSelf: "center",
+  },
   modalText: {
+    textAlign: "left",
+    fontSize: 15,
+    color: colors.modalFontColor,
+    paddingLeft: 5,
+  },
+  modalTextBlock: {
+    marginBottom: 15,
+  },
+  modalTextHeader: {
+    textAlign: "left",
+    fontSize: 15,
+    textDecorationLine: "underline",
+    color: colors.modalFontColor,
+  },
+  modalTextName: {
     marginBottom: 15,
     textAlign: "center",
+    fontSize: 25,
+    fontWeight: "bold",
+    color: colors.modalFontColor,
   },
   modalView: {
     margin: 20,
-    backgroundColor: "white",
+    backgroundColor: colors.background,
     borderRadius: 20,
     padding: 35,
-    alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -130,6 +169,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
+    width: "75%",
+    height: "50%",
   },
   name: {
     fontSize: 25,

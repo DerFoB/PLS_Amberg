@@ -129,6 +129,7 @@ function InfoList(props) {
             Trend={carpark.Trend}
             Status={carpark.Status}
             Closed={carpark.Geschlossen}
+            Hours={carpark.Oeffnungszeiten}
           ></InfoTile>
         ));
 

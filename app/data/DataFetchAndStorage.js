@@ -36,7 +36,7 @@ async function getData(storage) {
     return jsonValue != null ? JSON.parse(jsonValue) : null;
   } catch (error) {
     console.log(error);
-    return null;
+    return [];
   }
 }
 
@@ -75,4 +75,4 @@ function mergeJSON(json1, json2) {
   }
 }
 
-module.exports = { fetchXMLData, getData, mergeJSON };
+module.exports = { fetchXMLData, getData, mergeJSON, storeData };
