@@ -12,7 +12,9 @@ function InfoTile(props) {
     const [trendName, setTrendName] = useState("minus");
     const [trendColor, setTrendColor] = useState(colors.fontColor);
     const [showDetailedInfo, setShowDetailedInfo] = useState(false);
+    const [rerenderComponent, setrerenderComponent] = useState(false); // this is only here to force a rerender, so the changes will show up
 
+    // adds to or removes from favorites array in Parent Class
     function changeFavorites() {
       const favorites = props.Favorites;
 
@@ -22,6 +24,8 @@ function InfoTile(props) {
         favorites.splice(favorites.indexOf(props.Name), 1);
       }
       console.log(favorites);
+
+      setrerenderComponent(!rerenderComponent);
 
       props.onPress(favorites);
     }
@@ -39,7 +43,16 @@ function InfoTile(props) {
 
     return (
       <TouchableOpacity onPress={() => setShowDetailedInfo(true)}>
-        <View style={styles.container}>
+        <View
+          style={[
+            styles.container,
+            {
+              backgroundColor: props.Favorites.includes(props.Name)
+                ? colors.favorite
+                : colors.secondary,
+            },
+          ]}
+        >
           <Text style={styles.id}>{props.ID}</Text>
           <View style={styles.info}>
             <Text style={styles.name}>{decode(props.Name)}</Text>
@@ -84,13 +97,17 @@ function InfoTile(props) {
                   style={styles.modalButton}
                   onPress={changeFavorites}
                 >
-                  <Text style={styles.buttonText}>zu Favoriten hinzufügen</Text>
+                  <Text style={styles.modalButtonText}>
+                    {props.Favorites.includes(props.Name)
+                      ? "aus Favoriten entfernen"
+                      : "zu Favoriten hinzufügen"}
+                  </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.modalButton}
                   onPress={() => setShowDetailedInfo(!showDetailedInfo)}
                 >
-                  <Text style={styles.buttonText}>Schließen</Text>
+                  <Text style={styles.modalButtonText}>Schließen</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -102,11 +119,6 @@ function InfoTile(props) {
 }
 
 const styles = StyleSheet.create({
-  buttonText: {
-    color: colors.fontColor,
-    fontWeight: "bold",
-    textAlign: "center",
-  },
   centeredView: {
     flex: 1,
     justifyContent: "center",
@@ -115,7 +127,6 @@ const styles = StyleSheet.create({
   },
   container: {
     height: 85,
-    backgroundColor: colors.secondary,
     marginVertical: 5,
     paddingHorizontal: "5%",
     borderRadius: 10,
@@ -139,6 +150,12 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     elevation: 2,
     backgroundColor: colors.modalButton,
+    width: 200,
+  },
+  modalButtonText: {
+    color: colors.fontColor,
+    fontWeight: "bold",
+    textAlign: "center",
   },
   modalButtonContainer: {
     position: "absolute",
