@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   Modal,
   Switch,
+  PermissionsAndroid,
 } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import { decode } from "html-entities";
@@ -38,7 +39,7 @@ function InfoList(props) {
   const [showSettings, setShowSettings] = useState(false); // if modal is open or not
 
   //settings
-  const [ttsEnabled, setTTSEnabled] = useState(false);
+  const [ttsEnabled, setTTSEnabled] = useState(true);
   const toggleTTSSwitch = () => {
     setTTSEnabled(!ttsEnabled);
     setSaveChanges(saveChanges + 1);
@@ -130,7 +131,7 @@ function InfoList(props) {
             <View style={styles.markerCircle}>
               <Icon
                 name="pin"
-                fill={carpark.Closed ? colors.secondary : colors.primary}
+                fill={carpark.Closed ? colors.outline : colors.secondary}
                 stroke={colors.outline}
               />
               <Text style={styles.markerPinText}>{carpark.ID}</Text>
@@ -141,6 +142,11 @@ function InfoList(props) {
         // draw Map
         var carparkInformations = (
           <MapView
+            onMapReady={() => {
+              PermissionsAndroid.request(
+                PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION // needed to enable showsUserLocations
+              );
+            }}
             style={styles.map}
             initialRegion={{
               latitude: 49.444815,
@@ -149,6 +155,7 @@ function InfoList(props) {
               longitudeDelta: 0.016,
             }}
             customMapStyle={mapStyle}
+            showsUserLocation={true}
           >
             {mapMarkers}
           </MapView>
