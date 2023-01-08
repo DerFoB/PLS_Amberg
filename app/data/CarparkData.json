@@ -6,7 +6,8 @@
       "Latitude": 49.44169107096248,
       "Longitude": 11.859986606564314,
       "Oeffnungszeiten": "täglich von 0 bis 24 Uhr",
-      "Preis": ["keine Informationen bekannt"]
+      "Preis": ["keine Informationen bekannt"],
+      "PreisProStunde": "ist nicht bekannt"
     },
     {
       "ID": "2",
@@ -25,7 +26,8 @@
         "jeder weitere Tag 7,50 Euro",
         "__________________",
         "Nachttarif von 20.30 bis 7 Uhr je Stunden 0,50 Euro"
-      ]
+      ],
+      "PreisProStunde": "beträgt 1,50 Euro."
     },
     {
       "ID": "3",
@@ -40,7 +42,8 @@
         "__________________",
         "Monatsticket 15 Euro",
         "Jahresticket 120 Euro"
-      ]
+      ],
+      "PreisProStunde": "beträgt 0,50 Euro."
     },
     {
       "ID": "4",
@@ -60,7 +63,8 @@
         "- maximal nachts: 1,50 ",
         "__________________",
         "Maximal-Preis für 24 Studen: 6,50 Euro"
-      ]
+      ],
+      "PreisProStunde": "beträgt 1,00 Euro."
     },
     {
       "ID": "5",
@@ -80,7 +84,8 @@
         "- maximal nachts: 1,50 ",
         "__________________",
         "Maximal-Preis für 24 Studen: 6,50 Euro"
-      ]
+      ],
+      "PreisProStunde": "beträgt 1,00 Euro."
     },
     {
       "ID": "6",
@@ -88,7 +93,8 @@
       "Latitude": 49.44464453954624,
       "Longitude": 11.865120948480677,
       "Oeffnungszeiten": "-",
-      "Preis": ["keine Informationen bekannt"]
+      "Preis": ["keine Informationen bekannt"],
+      "PreisProStunde": "ist nicht bekannt"
     },
     {
       "ID": "7",
@@ -96,7 +102,8 @@
       "Latitude": 49.440839551889454,
       "Longitude": 11.860935343571217,
       "Oeffnungszeiten": "täglich von 0 bis 24 Uhr",
-      "Preis": ["keine Informationen bekannt"]
+      "Preis": ["keine Informationen bekannt"],
+      "PreisProStunde": "ist nicht bekannt"
     },
     {
       "ID": "8",
@@ -111,7 +118,8 @@
         "120 Minuten 2,80 Euro",
         "__________________",
         "Höchstparkdauer 2 Stunden"
-      ]
+      ],
+      "PreisProStunde": "beträgt 1,40 Euro."
     },
     {
       "ID": "9",
@@ -119,7 +127,8 @@
       "Latitude": 49.44440657667481,
       "Longitude": 11.866457683942192,
       "Oeffnungszeiten": "täglich von 0 bis 24 Uhr",
-      "Preis": ["pro Stunde: 1,50 €", "maximal 10 Euro am Tag"]
+      "Preis": ["pro Stunde: 1,50 €", "maximal 10 Euro am Tag"],
+      "PreisProStunde": "beträgt 1,50 Euro."
     }
   ]
 }

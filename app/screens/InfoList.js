@@ -14,6 +14,7 @@ import {
 } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import { decode } from "html-entities";
+import * as Location from "expo-location";
 
 import InfoTile from "../components/InfoTile";
 import colors from "../config/colors";
@@ -27,6 +28,11 @@ import {
 import Icon from "../components/Icon";
 import { mapStyle } from "../config/mapStyle";
 import PageMask from "../components/PageMask";
+import { getDistanceFromLatLonInKm } from "../scripts/DistanceLatLon";
+import {
+  getNearestCarpark,
+  watchUserAndGetNearestCarpark,
+} from "../data/NearestCarpark";
 
 function InfoList(props) {
   const [data, setData] = useState({}); //PLS data
@@ -37,6 +43,8 @@ function InfoList(props) {
   const [favorites, setFavorites] = useState([]); //list of favorites picked by the user
   const [saveChanges, setSaveChanges] = useState(0); // this is only here to force useEffect to act, cause it doesnt detect changes in an array
   const [showSettings, setShowSettings] = useState(false); // if modal is open or not
+  const [lastShortestDistanceCarpark, setLastShortestDistanceCarpark] =
+    useState("Musterstraße"); //carpark name with shortest distance to the user
 
   //settings
   const [ttsEnabled, setTTSEnabled] = useState(true);
@@ -67,7 +75,7 @@ function InfoList(props) {
   useEffect(() => {
     //fires the first time, so you don't have to wait for one minute
     //wait for the first load before render
-    const callApi = async () => {
+    const firstSetup = async () => {
       //fetch the Data from the website
       await fetchXMLData(configData.path, configData.storage);
       // fetch data for Markers from database
@@ -92,7 +100,11 @@ function InfoList(props) {
       console.log("only once");
     };
 
-    callApi();
+    firstSetup();
+
+    ///////////////////title
+    watchUserAndGetNearestCarpark();
+    storeData("Musterstraße", configData.lastShortestDistanceCarpark);
 
     //fires every Minute
     if (!intervalRunning) {
@@ -105,11 +117,15 @@ function InfoList(props) {
         getData(configData.storage).then((response) => {
           setData(mergeJSON(response.Daten.Parkhaus, markerJSON.Parkhaus));
           setTimestamp(response.Daten.Zeitstempel);
+          /*getNearestCarpark(
+            mergeJSON(response.Daten.Parkhaus, markerJSON.Parkhaus)
+          );*/
         });
+
         console.log("still working");
       }, 60000);
-      setIntervalRunning(true);
     }
+    setIntervalRunning(true); //so only one interval is running
   }, []);
 
   if (hasLoaded) {
