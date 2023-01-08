@@ -8,9 +8,11 @@ import { getData, mergeJSON, storeData } from "../data/DataFetchAndStorage.js";
 import configData from "../config/configData";
 
 const watchUserAndGetNearestCarpark = async (ttsEnabled) => {
+  //checks for Permission to get user location
   const foregroundPermission =
     await Location.requestForegroundPermissionsAsync();
-  // Locatoin tracking inside the component
+
+  // Location tracking
   if (foregroundPermission.granted) {
     Location.watchPositionAsync(
       {
@@ -19,6 +21,7 @@ const watchUserAndGetNearestCarpark = async (ttsEnabled) => {
         distanceInterval: 10,
       },
       (location) => {
+        // shortest distance of a carpark to the user gets stored here
         var shortestDistances = {
           distance: 1000000.0,
           name: "Musterstraße",
@@ -27,13 +30,12 @@ const watchUserAndGetNearestCarpark = async (ttsEnabled) => {
           pricePerHour: "ist nicht bekannt",
         };
 
+        // get Carpark JSON
         const markerJSON = require("../data/CarparkData.json");
 
+        // get PLS data
         getData(configData.storage).then((response) => {
-          //const storedData = getData(configData.storage);
-          //const data = mergeJSON(storedData.Daten.Parkhaus, markerJSON.Parkhaus);
-
-          //console.log("wat is hier", data);
+          // itarates through all carparks and saves the one with the shortest distance
           for (const [key, value] of Object.entries(
             mergeJSON(response.Daten.Parkhaus, markerJSON.Parkhaus)
           )) {
@@ -55,26 +57,27 @@ const watchUserAndGetNearestCarpark = async (ttsEnabled) => {
               console.log("Distance Problem: ", e);
             }
           }
-          console.log("before", shortestDistances);
         });
 
+        // checks if the nearest carpark is new or was the last output
         getData(configData.lastShortestDistanceCarpark).then((response) => {
           if (
             shortestDistances.name != response &&
             shortestDistances.distance < configData.geofencingRadius
           ) {
-            console.log("after", shortestDistances);
             storeData(
               shortestDistances.name,
               configData.lastShortestDistanceCarpark
             );
 
+            //Toast
             ToastAndroid.show(
               "Sie befinden sich in der Nähe von: \r" +
                 decode(shortestDistances.name),
               ToastAndroid.SHORT
             );
 
+            //TTS
             var trendTTS = "ist gleichbleibend. ";
             if (shortestDistances.trend < 0) {
               trendTTS = "nimmt ab. ";
@@ -106,4 +109,4 @@ const watchUserAndGetNearestCarpark = async (ttsEnabled) => {
   }
 };
 
-module.exports = { getNearestCarpark, watchUserAndGetNearestCarpark };
+module.exports = { watchUserAndGetNearestCarpark };
