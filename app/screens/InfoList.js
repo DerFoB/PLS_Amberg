@@ -14,7 +14,7 @@ import {
 } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import { decode } from "html-entities";
-import * as Location from "expo-location";
+import * as Speech from "expo-speech";
 
 import InfoTile from "../components/InfoTile";
 import colors from "../config/colors";
@@ -28,11 +28,7 @@ import {
 import Icon from "../components/Icon";
 import { mapStyle } from "../config/mapStyle";
 import PageMask from "../components/PageMask";
-import { getDistanceFromLatLonInKm } from "../scripts/DistanceLatLon";
-import {
-  getNearestCarpark,
-  watchUserAndGetNearestCarpark,
-} from "../data/NearestCarpark";
+import { watchUserAndGetNearestCarpark } from "../data/NearestCarpark";
 
 function InfoList(props) {
   const [data, setData] = useState({}); //PLS data
@@ -43,15 +39,22 @@ function InfoList(props) {
   const [favorites, setFavorites] = useState([]); //list of favorites picked by the user
   const [saveChanges, setSaveChanges] = useState(0); // this is only here to force useEffect to act, cause it doesnt detect changes in an array
   const [showSettings, setShowSettings] = useState(false); // if modal is open or not
-  const [lastShortestDistanceCarpark, setLastShortestDistanceCarpark] =
-    useState("Musterstraße"); //carpark name with shortest distance to the user
 
   //settings
   const [ttsEnabled, setTTSEnabled] = useState(true);
   const toggleTTSSwitch = () => {
     setTTSEnabled(!ttsEnabled);
     setSaveChanges(saveChanges + 1);
-  };
+  }; /*
+  useEffect(() => {
+    if(ttsEnabled){
+      
+    }else{
+      storeData()
+      Speech.stop();
+    }
+  }, [ttsEnabled]);*/
+
   const [onlyFavorites, setOnlyFavorites] = useState(false);
   const toggleFavoritesSwitch = () => {
     setOnlyFavorites(!onlyFavorites);
@@ -69,6 +72,10 @@ function InfoList(props) {
     storeData(favorites, configData.favorites);
     storeData(ttsEnabled, configData.ttsSetting);
     storeData(onlyFavorites, configData.favoritesSetting);
+
+    if (!ttsEnabled) {
+      Speech.stop();
+    }
   }, [saveChanges]);
 
   //fetch and get the data
@@ -103,7 +110,7 @@ function InfoList(props) {
     firstSetup();
 
     ///////////////////title
-    watchUserAndGetNearestCarpark();
+    watchUserAndGetNearestCarpark(ttsEnabled);
     storeData("Musterstraße", configData.lastShortestDistanceCarpark);
 
     //fires every Minute

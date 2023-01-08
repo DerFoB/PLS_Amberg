@@ -1,5 +1,7 @@
 import * as Location from "expo-location";
 import { ToastAndroid } from "react-native";
+import { decode } from "html-entities";
+import * as Speech from "expo-speech";
 
 import { getDistanceFromLatLonInKm } from "../scripts/DistanceLatLon";
 import { getData, mergeJSON, storeData } from "../data/DataFetchAndStorage.js";
@@ -18,7 +20,7 @@ const getNearestCarpark = async (data) => {
   }
 };
 
-const watchUserAndGetNearestCarpark = async () => {
+const watchUserAndGetNearestCarpark = async (ttsEnabled) => {
   const foregroundPermission =
     await Location.requestForegroundPermissionsAsync();
   // Locatoin tracking inside the component
@@ -75,19 +77,43 @@ const watchUserAndGetNearestCarpark = async () => {
             shortestDistances.distance < configData.geofencingRadius
           ) {
             console.log("after", shortestDistances);
-
-            ToastAndroid.show("Request sent successfully!", ToastAndroid.SHORT);
             storeData(
               shortestDistances.name,
               configData.lastShortestDistanceCarpark
             );
+
+            ToastAndroid.show(
+              "Sie befinden sich in der Nähe von: \r" +
+                decode(shortestDistances.name),
+              ToastAndroid.SHORT
+            );
+
+            var trendTTS = "ist gleichbleibend. ";
+            if (shortestDistances.trend < 0) {
+              trendTTS = "nimmt ab. ";
+            }
+            if (shortestDistances.trend > 0) {
+              trendTTS = "nimmt zu. ";
+            }
+
+            getData(configData.ttsSetting).then((ttsSetting) => {
+              if (ttsSetting) {
+                Speech.speak(
+                  "Sie befinden sich in der Nähe von: " +
+                    decode(shortestDistances.name) +
+                    ". Es sind " +
+                    shortestDistances.available +
+                    " Parkplätze frei. Die Parkplatzbelegung" +
+                    trendTTS +
+                    "Der Preis pro Stunde " +
+                    shortestDistances.pricePerHour +
+                    ".",
+                  { language: "de" }
+                );
+              }
+            });
           }
         });
-
-        //if (shortestDistances.name != lastShortestDistanceCarpark) {
-        //console.log("after", shortestDistances);
-        //setLastShortestDistanceCarpark(shortestDistances.name);
-        //}
       }
     );
   }
