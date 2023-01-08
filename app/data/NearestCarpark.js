@@ -7,19 +7,6 @@ import { getDistanceFromLatLonInKm } from "../scripts/DistanceLatLon";
 import { getData, mergeJSON, storeData } from "../data/DataFetchAndStorage.js";
 import configData from "../config/configData";
 
-//storing the data globally with AsynchStorage
-const getNearestCarpark = async (data) => {
-  // shortest distance carpark
-  const foregroundPermission =
-    await Location.requestForegroundPermissionsAsync();
-
-  if (foregroundPermission.granted) {
-    let location = await Location.getCurrentPositionAsync({});
-    console.log("hier", location);
-    console.log(data);
-  }
-};
-
 const watchUserAndGetNearestCarpark = async (ttsEnabled) => {
   const foregroundPermission =
     await Location.requestForegroundPermissionsAsync();

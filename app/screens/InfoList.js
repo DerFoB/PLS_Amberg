@@ -45,15 +45,7 @@ function InfoList(props) {
   const toggleTTSSwitch = () => {
     setTTSEnabled(!ttsEnabled);
     setSaveChanges(saveChanges + 1);
-  }; /*
-  useEffect(() => {
-    if(ttsEnabled){
-      
-    }else{
-      storeData()
-      Speech.stop();
-    }
-  }, [ttsEnabled]);*/
+  };
 
   const [onlyFavorites, setOnlyFavorites] = useState(false);
   const toggleFavoritesSwitch = () => {
@@ -109,9 +101,9 @@ function InfoList(props) {
 
     firstSetup();
 
-    ///////////////////title
+    //activates User Position observer and nearest carpark output
     watchUserAndGetNearestCarpark(ttsEnabled);
-    storeData("Musterstraße", configData.lastShortestDistanceCarpark);
+    storeData("Musterstraße", configData.lastShortestDistanceCarpark); //so the stored data resets
 
     //fires every Minute
     if (!intervalRunning) {
@@ -124,9 +116,6 @@ function InfoList(props) {
         getData(configData.storage).then((response) => {
           setData(mergeJSON(response.Daten.Parkhaus, markerJSON.Parkhaus));
           setTimestamp(response.Daten.Zeitstempel);
-          /*getNearestCarpark(
-            mergeJSON(response.Daten.Parkhaus, markerJSON.Parkhaus)
-          );*/
         });
 
         console.log("still working");
