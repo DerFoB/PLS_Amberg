@@ -2,6 +2,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { XMLParser } from "fast-xml-parser";
 import { merge } from "lodash";
 
+import configData from "../config/configData";
+
 //fetch XML data from path
 function fetchXMLData(path, storage) {
   var parser = new XMLParser();
@@ -67,11 +69,8 @@ function mergeJSON(json1, json2) {
     return Object.values(objectsByName);
   } catch (error) {
     console.log(error);
-    var oldData = [];
-    getData().then((response) => {
-      oldData = response;
-    });
-    return oldData;
+
+    return getData(configData.storage);
   }
 }
 

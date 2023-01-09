@@ -61,9 +61,16 @@ function InfoList(props) {
 
   //stores the new favorites after each change
   useEffect(() => {
-    storeData(favorites, configData.favorites);
-    storeData(ttsEnabled, configData.ttsSetting);
-    storeData(onlyFavorites, configData.favoritesSetting);
+    if (saveChanges != 0) {
+      //so it doesnt reset if reopening the app
+      storeData(favorites, configData.favorites);
+      storeData(ttsEnabled, configData.ttsSetting);
+      storeData(onlyFavorites, configData.favoritesSetting);
+    }
+    if (saveChanges > 10) {
+      //to prevent stack overflow
+      setSaveChanges(1);
+    }
 
     if (!ttsEnabled) {
       Speech.stop();
