@@ -12,11 +12,11 @@ import {
   Switch,
   PermissionsAndroid,
 } from "react-native";
-import MapView, { Marker } from "react-native-maps";
-import { decode } from "html-entities";
+import MapView from "react-native-maps";
 import * as Speech from "expo-speech";
 
 import InfoTile from "../components/InfoTile";
+import MapMarker from "../components/MapMarker";
 import colors from "../config/colors";
 import configData from "../config/configData";
 import {
@@ -137,25 +137,16 @@ function InfoList(props) {
       {
         // place Markers on Map
         var mapMarkers = data.map((carpark) => (
-          <Marker
-            key={carpark.ID}
-            coordinate={{
-              latitude: carpark.Latitude,
-              longitude: carpark.Longitude,
-            }}
-            title={decode(carpark.Name)}
-            description={carpark.Oeffnungszeiten}
-            toolbarEnabled={true}
-          >
-            <View style={styles.markerCircle}>
-              <Icon
-                name="pin"
-                fill={carpark.Closed ? colors.outline : colors.secondary}
-                stroke={colors.outline}
-              />
-              <Text style={styles.markerPinText}>{carpark.ID}</Text>
-            </View>
-          </Marker>
+          <MapMarker
+            ID={carpark.ID}
+            Latitude={carpark.Latitude}
+            Longitude={carpark.Longitude}
+            Name={carpark.Name}
+            OpeningHours={carpark.Oeffnungszeiten}
+            Closed={carpark.Closed}
+            Favorites={favorites}
+            OnlyFavorites={onlyFavorites}
+          />
         ));
 
         // draw Map
@@ -359,17 +350,6 @@ const styles = StyleSheet.create({
   map: {
     width: "100%",
     height: "100%",
-  },
-  markerCircle: {
-    alignItems: "center",
-  },
-  markerPinText: {
-    position: "absolute",
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center",
-    fontSize: 20,
-    marginBottom: 10,
   },
   modalButton: {
     borderRadius: 20,
