@@ -138,6 +138,7 @@ function InfoList(props) {
         // place Markers on Map
         var mapMarkers = data.map((carpark) => (
           <MapMarker
+            key={carpark.ID}
             ID={carpark.ID}
             Latitude={carpark.Latitude}
             Longitude={carpark.Longitude}
