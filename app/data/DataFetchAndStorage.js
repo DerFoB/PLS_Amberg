@@ -5,6 +5,7 @@ import { merge } from "lodash";
 import configData from "../config/configData";
 
 //fetch XML data from path
+//no return
 function fetchXMLData(path, storage) {
   var parser = new XMLParser();
 
@@ -22,6 +23,7 @@ function fetchXMLData(path, storage) {
 }
 
 //storing the data globally with AsynchStorage
+//no return
 const storeData = async (data, storage) => {
   try {
     jsonObject = JSON.stringify(data);
@@ -32,6 +34,7 @@ const storeData = async (data, storage) => {
 };
 
 //getting the Data from the storage of AsynchStorage
+//return: Object
 async function getData(storage) {
   try {
     const jsonValue = await AsyncStorage.getItem(storage);
@@ -43,6 +46,7 @@ async function getData(storage) {
 }
 
 //merge two JSON Files by the key "Name"
+//return: object
 function mergeJSON(json1, json2) {
   try {
     const objectsByName = {};

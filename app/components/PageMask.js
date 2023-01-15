@@ -1,9 +1,7 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 
-////////////////////////////////////////////
-// Description: Erzeugt eine Maske die sich über die ganze Seite legt
-///////////////////////////////////////////
+// Generates a mask which is put above the whole site
 function PageMask(props) {
   return <View style={styles.page_mask} />;
 }

@@ -6,6 +6,7 @@ import colors from "../config/colors";
 import Icon from "../components/Icon";
 import PageMask from "./PageMask";
 
+// Component which displays the Information of a single carpark
 function InfoTile(props) {
   if (props.ID != null) {
     // trend-icon values
@@ -19,18 +20,25 @@ function InfoTile(props) {
     function changeFavorites() {
       const favorites = props.Favorites;
 
-      if (!favorites.includes(props.Name)) {
+      if(favorites==[null]){
         favorites.push(props.Name);
       } else {
-        if (favorites.length > 1) {
-          favorites.splice(favorites.indexOf(props.Name), 1);
+
+        if (!favorites.includes(props.Name)) {
+          favorites.push(props.Name);
         } else {
-          favorites.pop();
-        }
-        if (props.OnlyFavorites) {
-          setShowDetailedInfo(false);
+          if (favorites.length > 1) {
+            favorites.splice(favorites.indexOf(props.Name), 1);
+          } else {
+            favorites.pop();
+          }
+          if (props.OnlyFavorites) {
+            setShowDetailedInfo(false);
+          }
         }
       }
+
+
       setrerenderComponent(!rerenderComponent); // force rerender
       props.onPress(favorites);
     }
@@ -60,9 +68,9 @@ function InfoTile(props) {
           style={[
             styles.container,
             {
-              backgroundColor: props.Favorites.includes(props.Name)
-                ? colors.favorite
-                : colors.secondary,
+              backgroundColor: props.Favorites == [null] ? (props.Favorites.includes(props.Name)
+              ? colors.favorite
+              : colors.secondary) : colors.secondary,
             },
           ]}
         >
@@ -119,9 +127,9 @@ function InfoTile(props) {
                   onPress={changeFavorites}
                 >
                   <Text style={styles.modalButtonText}>
-                    {props.Favorites.includes(props.Name)
+                    {props.Favorites == [null] ? (props.Favorites.includes(props.Name)
                       ? "aus Favoriten entfernen"
-                      : "zu Favoriten hinzufügen"}
+                      : "zu Favoriten hinzufügen") : "zu Favoriten hinzufügen"}
                   </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -138,6 +146,9 @@ function InfoTile(props) {
     );
 
     if (props.OnlyFavorites) {
+      if (props.Favorites == [null]){
+        return <Text>Es wurde kein Favorit bestimmt</Text>
+      }
       if (props.Favorites.includes(props.Name)) {
         return <View>{infoTile}</View>;
       }

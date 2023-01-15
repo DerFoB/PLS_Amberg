@@ -30,6 +30,7 @@ import { mapStyle } from "../config/mapStyle";
 import PageMask from "../components/PageMask";
 import { watchUserAndGetNearestCarpark } from "../data/NearestCarpark";
 
+//main page of the app
 function InfoList(props) {
   const [data, setData] = useState({}); //PLS data
   const [timestamp, setTimestamp] = useState({}); //last update timestamp

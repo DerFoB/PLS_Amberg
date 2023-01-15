@@ -5,6 +5,8 @@ import { View, StyleSheet, Text } from "react-native";
 import Icon from "../components/Icon";
 import colors from "../config/colors";
 
+// Marker of a single carpark on the map
+
 function MapMarker(props) {
   if (props.ID != null) {
     var marker = (
@@ -30,6 +32,9 @@ function MapMarker(props) {
     );
 
     if (props.OnlyFavorites) {
+      if (props.Favorites == [null]){
+        return <Text>Es wurde kein Favorit bestimmt</Text>
+      }
       if (props.Favorites.includes(props.Name)) {
         return <View>{marker}</View>;
       }

@@ -7,6 +7,8 @@ import { getDistanceFromLatLonInKm } from "../scripts/DistanceLatLon";
 import { getData, mergeJSON, storeData } from "../data/DataFetchAndStorage.js";
 import configData from "../config/configData";
 
+//get nearest Carpark on User Position change and output to User with Toast and TTS
+// return: void
 const watchUserAndGetNearestCarpark = async (ttsEnabled) => {
   //checks for Permission to get user location
   const foregroundPermission =
