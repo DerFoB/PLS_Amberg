@@ -85,6 +85,8 @@ function InfoList(props) {
       //fetch the Data from the website
       await fetchXMLData(configData.path, configData.storage);
       // fetch data for Markers from database
+      // path for Carpark informations. This would normally be on a server or database,
+      // but it is deposited inside the project, so the project can get tested and reviewed by the evalutaing professor
       const markerJSON = require("../data/CarparkData.json");
 
       //get the Data from the storage
