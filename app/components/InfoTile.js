@@ -20,22 +20,18 @@ function InfoTile(props) {
     function changeFavorites() {
       const favorites = props.Favorites;
 
-  
-
-        if (!favorites.includes(props.Name)) {
-          favorites.push(props.Name);
+      if (!favorites.includes(props.Name)) {
+        favorites.push(props.Name);
+      } else {
+        if (favorites.length > 1) {
+          favorites.splice(favorites.indexOf(props.Name), 1);
         } else {
-          if (favorites.length > 1) {
-            favorites.splice(favorites.indexOf(props.Name), 1);
-          } else {
-            favorites.pop();
-          }
-          if (props.OnlyFavorites) {
-            setShowDetailedInfo(false);
-          }
+          favorites.pop();
         }
-      
-
+        if (props.OnlyFavorites) {
+          setShowDetailedInfo(false);
+        }
+      }
 
       setrerenderComponent(!rerenderComponent); // force rerender
       props.onPress(favorites);
@@ -67,8 +63,8 @@ function InfoTile(props) {
             styles.container,
             {
               backgroundColor: props.Favorites.includes(props.Name)
-              ? colors.favorite
-              : colors.secondary,
+                ? colors.favorite
+                : colors.secondary,
             },
           ]}
         >

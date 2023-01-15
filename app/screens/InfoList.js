@@ -90,37 +90,34 @@ function InfoList(props) {
       // but it is deposited inside the project, so the project can get tested and reviewed by the evalutaing professor
       const markerJSON = require("../data/CarparkData.json");
 
-
       //get the Data from the storage
       await getData(configData.storage).then((response) => {
         setData(mergeJSON(response.Daten.Parkhaus, markerJSON.Parkhaus));
         setTimestamp(response.Daten.Zeitstempel);
       });
       await getData(configData.favorites).then((response) => {
-        if (response == null){
-          setFavorites([])
+        if (response == null) {
+          setFavorites([]);
         } else {
-
           setFavorites(response);
         }
       });
       await getData(configData.ttsSetting).then((response) => {
-        if (response == null){
-          setTTSEnabled(true)
+        if (response == null) {
+          setTTSEnabled(true);
         } else {
-        setTTSEnabled(response);
+          setTTSEnabled(response);
         }
       });
       await getData(configData.favoritesSetting).then((response) => {
-        if (response == null){
-          setOnlyFavorites(false)
+        if (response == null) {
+          setOnlyFavorites(false);
         } else {
-        setOnlyFavorites(response);
+          setOnlyFavorites(response);
         }
       });
 
       setHasLoaded(true);
-      console.log("only once");
     };
 
     firstSetup();
@@ -141,8 +138,6 @@ function InfoList(props) {
           setData(mergeJSON(response.Daten.Parkhaus, markerJSON.Parkhaus));
           setTimestamp(response.Daten.Zeitstempel);
         });
-
-        console.log("still working");
       }, 60000);
     }
     setIntervalRunning(true); //so only one interval is running
