@@ -90,19 +90,33 @@ function InfoList(props) {
       // but it is deposited inside the project, so the project can get tested and reviewed by the evalutaing professor
       const markerJSON = require("../data/CarparkData.json");
 
+
       //get the Data from the storage
       await getData(configData.storage).then((response) => {
         setData(mergeJSON(response.Daten.Parkhaus, markerJSON.Parkhaus));
         setTimestamp(response.Daten.Zeitstempel);
       });
       await getData(configData.favorites).then((response) => {
-        setFavorites(response);
+        if (response == null){
+          setFavorites([])
+        } else {
+
+          setFavorites(response);
+        }
       });
       await getData(configData.ttsSetting).then((response) => {
+        if (response == null){
+          setTTSEnabled(true)
+        } else {
         setTTSEnabled(response);
+        }
       });
       await getData(configData.favoritesSetting).then((response) => {
+        if (response == null){
+          setOnlyFavorites(false)
+        } else {
         setOnlyFavorites(response);
+        }
       });
 
       setHasLoaded(true);

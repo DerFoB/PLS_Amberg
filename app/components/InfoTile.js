@@ -20,9 +20,7 @@ function InfoTile(props) {
     function changeFavorites() {
       const favorites = props.Favorites;
 
-      if(favorites==[null]){
-        favorites.push(props.Name);
-      } else {
+  
 
         if (!favorites.includes(props.Name)) {
           favorites.push(props.Name);
@@ -36,7 +34,7 @@ function InfoTile(props) {
             setShowDetailedInfo(false);
           }
         }
-      }
+      
 
 
       setrerenderComponent(!rerenderComponent); // force rerender
@@ -68,9 +66,9 @@ function InfoTile(props) {
           style={[
             styles.container,
             {
-              backgroundColor: props.Favorites == [null] ? (props.Favorites.includes(props.Name)
+              backgroundColor: props.Favorites.includes(props.Name)
               ? colors.favorite
-              : colors.secondary) : colors.secondary,
+              : colors.secondary,
             },
           ]}
         >
@@ -127,9 +125,9 @@ function InfoTile(props) {
                   onPress={changeFavorites}
                 >
                   <Text style={styles.modalButtonText}>
-                    {props.Favorites == [null] ? (props.Favorites.includes(props.Name)
+                    {props.Favorites.includes(props.Name)
                       ? "aus Favoriten entfernen"
-                      : "zu Favoriten hinzufügen") : "zu Favoriten hinzufügen"}
+                      : "zu Favoriten hinzufügen"}
                   </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -146,9 +144,6 @@ function InfoTile(props) {
     );
 
     if (props.OnlyFavorites) {
-      if (props.Favorites == [null]){
-        return <Text>Es wurde kein Favorit bestimmt</Text>
-      }
       if (props.Favorites.includes(props.Name)) {
         return <View>{infoTile}</View>;
       }
